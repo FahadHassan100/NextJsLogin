@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Info, Coins, LogOut, Menu } from "lucide-react";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { handleSignOut } from "./components/signout";
+import { currentUser } from "@/lib/auth";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -30,7 +31,15 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [userName] = useState("John Doe"); // Replace with actual user data/auth
+  const [userName, setUserName] = useState(null); // Replace with actual user data/auth
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData: any = await currentUser();
+      setUserName(userData.Client_Name);
+    };
+    fetchUser();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
