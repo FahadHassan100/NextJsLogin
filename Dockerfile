@@ -1,18 +1,19 @@
+# Use official Node.js runtime as the base image
 FROM node:18-alpine AS base
 
-# Install dependencies only when needed
+# Set working directory
 FROM base AS deps
 RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+# Copy package.json and package-lock.json (if available)
+COPY package*.json package-lock.json* ./
 RUN \
-    if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-    elif [ -f package-lock.json ]; then npm ci; \
-    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-    else echo "Lockfile not found." && exit 1; \
+    ls -la && \
+    if [ -f package-lock.json ]; then echo "Using npm" && npm ci; \
+    else echo "Lockfile not found: yarn.lock, package-lock.json, or pnpm-lock.yaml missing" && exit 1; \
     fi
+
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -21,14 +22,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 
-# Generate Prisma client with the correct binary
+# Generate Prisma client
 RUN npx prisma generate
+
 
 # Build the Next.js app
 RUN \
-    if [ -f yarn.lock ]; then yarn run build; \
-    elif [ -f package-lock.json ]; then npm run build; \
-    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+    if [ -f package-lock.json ]; then npm run build; \
     else echo "Lockfile not found." && exit 1; \
     fi
 
@@ -38,31 +38,7 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
-# Add OpenSSL for runtime
-RUN apk add --no-cache openssl
-
-# Create non-root user and set permissions
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-
-
-# Copy build artifacts
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-# Copy the public directory to serve static assets
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-
-# Copy SSL files
-# COPY ./ssl/key.pem /app/ssl/key.pem
-# COPY ./ssl/cert.pem /app/ssl/cert.pem
-
-# Copy the custom server
-# COPY server.js /app/server.js
-
-USER nextjs
-
+# Expose the port Next.js will run on
 EXPOSE 3009
 ENV PORT 3009
 ENV HOSTNAME "0.0.0.0"
