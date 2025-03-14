@@ -9,7 +9,6 @@ const Dashboard = () => {
       <div>
         <TokenBtn />
         <h3>boxes</h3>
-        <p>Checking File</p>
       </div>
     </div>
   );
