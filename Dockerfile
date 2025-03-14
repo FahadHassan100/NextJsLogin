@@ -1,34 +1,34 @@
-# Use official Node.js runtime as the base image
 FROM node:18-alpine AS base
 
-# Set working directory
+# Install dependencies only when needed
 FROM base AS deps
 RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY package*.json package-lock.json* ./
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
-    ls -la && \
-    if [ -f package-lock.json ]; then echo "Using npm" && npm ci; \
-    else echo "Lockfile not found: yarn.lock, package-lock.json, or pnpm-lock.yaml missing" && exit 1; \
+    if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+    elif [ -f package-lock.json ]; then npm ci; \
+    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+    else echo "Lockfile not found." && exit 1; \
     fi
-
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 
-# Generate Prisma client
+# Generate Prisma client with the correct binary
 RUN npx prisma generate
-
 
 # Build the Next.js app
 RUN \
-    if [ -f package-lock.json ]; then npm run build; \
+    if [ -f yarn.lock ]; then yarn run build; \
+    elif [ -f package-lock.json ]; then npm run build; \
+    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
     else echo "Lockfile not found." && exit 1; \
     fi
 
@@ -36,9 +36,16 @@ RUN \
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
 
-# Expose the port Next.js will run on
+
+# Copy build artifacts
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Copy the public directory to serve static assets
+# COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+
 EXPOSE 3009
 ENV PORT 3009
 ENV HOSTNAME "0.0.0.0"
