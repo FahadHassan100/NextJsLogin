@@ -36,6 +36,8 @@ RUN \
 FROM base AS runner
 WORKDIR /app
 
+# Add OpenSSL for runtime
+RUN apk add --no-cache openssl
 
 
 # Copy build artifacts

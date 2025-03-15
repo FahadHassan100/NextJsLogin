@@ -9,6 +9,7 @@ const Dashboard = () => {
       <div>
         <TokenBtn />
         <h3>boxes</h3>
+        <h2>Checking</h2>
       </div>
     </div>
   );
