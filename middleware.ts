@@ -21,13 +21,12 @@ export default auth((req) => {
     const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoutes = authRoutes.includes(nextUrl.pathname);
 
-    if (req.nextUrl.pathname === "/") {
-        return NextResponse.redirect(new URL("/login", req.url));
+    if (pathname === "/" || pathname === "/testt") {
+        return NextResponse.redirect(new URL("/testt/login", req.url));
     }
 
-
     if (!isLoggedIn && !isPublicRoutes) {
-        return Response.redirect(new URL("/login", nextUrl));
+        return Response.redirect(new URL("/testt/login", nextUrl));
     }
 
     console.log(isLoggedIn);
@@ -35,5 +34,10 @@ export default auth((req) => {
 });
 
 export const config = {
-    matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-  };
+    matcher: [
+        "/",
+        "/testt/((?!.+\\.[\\w]+$|_next).*)",
+        "/testt/",
+        "/testt/(api|trpc)(.*)",
+    ],
+};

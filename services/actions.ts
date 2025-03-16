@@ -35,7 +35,7 @@ export const signInCredentials = async (email: string, password: string) => {
 
     try {
         
-        await signIn("credentials",{email,password, redirectTo: "/dashboard"});
+        await signIn("credentials",{email,password, redirectTo: "/testt/dashboard"});
 
 
     } catch (error) {

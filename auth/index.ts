@@ -10,8 +10,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         maxAge: 60 * 60 * 24,
     },
     pages:{
-        signIn: "/tokensys/",
-        error: "/tokensys/error,"
+        signIn: "/testt/",
+        error: "/testt/error,"
     },
     callbacks: {
         // Attach user data to the token

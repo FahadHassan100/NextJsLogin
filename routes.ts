@@ -1,3 +1,3 @@
-export const publicRoutes: string[] = ["/login","/register"];
+export const publicRoutes: string[] = ["/testt/login","/testt/register"];
 
-export const authRoutes: string[] = ["/dashboard"];
+export const authRoutes: string[] = ["/testt/dashboard"];
