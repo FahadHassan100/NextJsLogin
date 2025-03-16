@@ -29,8 +29,6 @@ export default auth((req) => {
         return Response.redirect(new URL("/testt/login", nextUrl));
     }
 
-    console.log(isLoggedIn);
-
 });
 
 export const config = {
