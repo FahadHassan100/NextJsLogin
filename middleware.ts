@@ -22,11 +22,11 @@ export default auth((req) => {
     const isAuthRoutes = authRoutes.includes(nextUrl.pathname);
 
     if (pathname === "/" || pathname === "/testt") {
-        return NextResponse.redirect(new URL("/testt/login", req.url));
+        return NextResponse.redirect(new URL("../testt/login", req.url));
     }
 
     if (!isLoggedIn && !isPublicRoutes) {
-        return Response.redirect(new URL("/testt/login", nextUrl));
+        return Response.redirect(new URL("../testt/login", nextUrl));
     }
 
 });
