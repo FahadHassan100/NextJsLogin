@@ -2,9 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  //basePath: "/testt",
+  basePath: "/testt",
   output: "standalone",
-  // trailingSlash: true,
+  trailingSlash: true,
   assetPrefix: "/testt/",
 };
 
