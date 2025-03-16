@@ -50,8 +50,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 EXPOSE 3009
 
-# ENV NEXT_PUBLIC_BASE_PATH="/testt"
-# ENV NEXTJS_BASE_PATH="/testt"
+ENV NEXT_PUBLIC_BASE_PATH="/testt"
+ENV NEXTJS_BASE_PATH="/testt"
 
 
 ENV PORT 3009
