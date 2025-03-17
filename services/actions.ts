@@ -25,6 +25,8 @@ export const authentication = async (formData:any) => {
 
     const {email,password} = Object.fromEntries(formData);
 
+    console.log(email+"--"+password);
+
     return await signInCredentials(email, password);
 
 }
