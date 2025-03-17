@@ -2,7 +2,7 @@ FROM node:18-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
-RUN apk add --no-cache libc6-compat openssl
+# RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
@@ -37,7 +37,7 @@ FROM base AS runner
 WORKDIR /app
 
 # Add OpenSSL for runtime
-RUN apk add --no-cache openssl
+# RUN apk add --no-cache openssl
 
 
 # Copy build artifacts
