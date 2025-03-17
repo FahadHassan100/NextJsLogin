@@ -2,6 +2,7 @@ import { db } from "@/lib/db"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import NextAuth from "next-auth"
 import { authConfig } from "./config"
+import { authOptions } from "./options"
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: PrismaAdapter(db),
@@ -44,5 +45,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return session;
       },
     },
-    ...authConfig
+    ...authConfig,
+    ...authOptions
 })
