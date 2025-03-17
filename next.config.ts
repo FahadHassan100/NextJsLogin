@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   // basePath: "/testt",
+  assetPrefix: '/testt',
   output: "standalone",
   // trailingSlash: true,
   // assetPrefix: "/testt/",
