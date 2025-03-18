@@ -9,7 +9,7 @@ const Dashboard = () => {
       <div>
         <TokenBtn />
         <h3>boxes</h3>
-        <h2>Checking</h2>
+        <h2>Checking 66</h2>
       </div>
     </div>
   );

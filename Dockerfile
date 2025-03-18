@@ -39,7 +39,6 @@ WORKDIR /app
 # Add OpenSSL for runtime
 # RUN apk add --no-cache openssl
 
-RUN npx prisma generate
 
 # Copy build artifacts
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
