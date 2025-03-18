@@ -50,8 +50,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 EXPOSE 3009
 
-ENV NEXT_PUBLIC_BASE_PATH="/testt"
-ENV NEXTJS_BASE_PATH="/testt"
+# Add these NextAuth environment variables
+ENV NEXTAUTH_URL=https://philanthroceuticals.com/testt
+ENV NEXTAUTH_SECRET="nHbu8KG+hyMjaYfEAC2VDLbcQo+fXnNc6T/aSrEJGwo="
+ENV NEXTAUTH_URL_INTERNAL=http://localhost:3009
+ENV NEXT_PUBLIC_APP_URL=https://philanthroceuticals.com/testt
 
 
 ENV PORT 3009
