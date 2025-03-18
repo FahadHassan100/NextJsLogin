@@ -10,7 +10,7 @@ const CheckScreen = () => {
     const getUsr = async () => {
       const abc: any = await getUserByEmail("test@live.com");
       setNameHai(abc.Client_Name);
-      console.log();
+      console.log(abc);
     };
 
     getUsr();
