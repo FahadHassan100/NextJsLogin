@@ -21,7 +21,7 @@ export default auth((req) => {
     const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoutes = authRoutes.includes(nextUrl.pathname);
 
-    if (pathname === "/" || pathname === "/testt") {
+    if (pathname === "/" ) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
 
