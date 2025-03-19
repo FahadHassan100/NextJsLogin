@@ -11,8 +11,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         maxAge: 60 * 60 * 24,
     },
     pages:{
-        signIn: "/testt/",
-        error: "/testt/error,"
+        signIn: "/",
+        error: "/error,"
     },
     callbacks: {
         // Attach user data to the token
@@ -45,5 +45,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return session;
       },
     },
+    trustHost: true,
     ...authConfig
 })
