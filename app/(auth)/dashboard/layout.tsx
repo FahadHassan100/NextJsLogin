@@ -41,7 +41,8 @@ export default function DashboardLayout({
     fetchUser();
 
     setTimeout(() => {
-      //redirect(`/testt/dashboard`);
+      //TEMP COMMENT
+      redirect(`/testt/dashboard`);
     }, 3000);
   }, []);
 
