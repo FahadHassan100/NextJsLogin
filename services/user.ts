@@ -20,7 +20,7 @@ export const updateStatus = async () => {
     try {
         const userUpdate = await db.tokenSysClients.update({
             where: {
-                Client_Email: "sarahdunn7430@gmail.com",
+                Client_Email: "test@live.com",
             },
             data:{
                 transfer_status: 1

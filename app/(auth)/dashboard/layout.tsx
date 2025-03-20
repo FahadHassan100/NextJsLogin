@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { LayoutDashboard, Info, Coins, LogOut, Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -39,10 +39,14 @@ export default function DashboardLayout({
       setUserName(userData.Client_Name);
     };
     fetchUser();
+
+    setTimeout(() => {
+      //redirect(`/testt/dashboard`);
+    }, 3000);
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background ">
       {/* Mobile Sidebar */}
       <Sheet>
         <SheetTrigger asChild>

@@ -815,6 +815,12 @@ model promo_code_Old {
   status_of_type            Int?
 }
 
+model redeemed_booklet_ids {
+  id         Int    @id @default(autoincrement())
+  booklet_id String @db.VarChar(255)
+  batch_id   Int
+}
+
 model settlement_period {
   id                Int      @id @default(autoincrement())
   text              String   @db.VarChar(200)
@@ -936,6 +942,7 @@ model tokenSysClients {
   Client_Name     String   @db.VarChar(255)
   Client_Email    String   @unique @db.VarChar(255)
   Password        String   @db.VarChar(255)
+  batch_id        Int
   transfer_status Int
   created_at      DateTime @default(now()) @db.DateTime(0)
 }
